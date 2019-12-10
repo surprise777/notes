@@ -49,37 +49,34 @@
 
 #### Role ( OS  == ? ) 
 
-* Virtural Machine
+* **Virtural Machine**
   * extend + simplify interface for physical machine
   * provide a library of functions accessible though an API
-* Resource Allocator
+* **Resource Allocator**
   * allow the resources (HW, SW, data) properly use the system operation
   * provide an environment that programs can work uesfully in in this
-* Control Program
+* **Control Program**
   * ctrl the execution of user programs without error/improper use of PC, especially the programs related to I/O devices
 
 #### OS Themes
 
-* Virtualization
-
-  * physical resource (CPU, Mem, HDs) &rightarrow; general + powerful + ez-2-use form
+* **Virtualization**
+* physical resource (CPU, Mem, HDs) &rightarrow; general + powerful + ez-2-use form
   * only one/a few really existed resource &rightarrow; multiple/unlimited illusion
-
-* Concurrency
-
-  * coordinate multiple activities together to ensure correctness
-
-* Persistence
-
-  * Some data needs to survive from crashes or power failures
+  
+* **Concurrency**
+* coordinate multiple activities together to ensure correctness
+  
+* **Persistence**
+* Some data needs to survive from crashes or power failures
 
 #### How to relate to other parts of PC system
 
-* Covinient abstraction of Hardware
+* **Covinient abstraction of Hardware**
   * Address? Page table?
-* Protection, Security, Authentication
+* **Protection, Security, Authentication**
   * PID? 
-* Communication
+* **Communication**
   * System call?
 
 
@@ -99,18 +96,18 @@
 > Cache [缓存]
 
 #### Storage/Memory Hierarchy
-* Rudimentary memory hierarchy
+* **Rudimentary memory hierarchy**
   * Processor Register
   * Main Memory
   * Auxiliary Memory
 
-* Classified by
+* **Classified by**
   * Memory Speed
   * Cost
   * Volatility
-* Cache
+* **Cache**
   * install to hide the performance diff between two LVs' large access-time gap
-* Larger + Slower + Cheaper
+* **Larger + Slower + Cheaper**
   * CPU ( within LV1 Cache) &rightarrow; LV2/LV3 Cache &rightarrow; Main Memory &rightarrow; Disk
 
 #### How to virtualize persistent storage
@@ -132,9 +129,9 @@
 
 #### Role  ( FS  == ? )
 
-* Data Control Program
+* **Data Control Program**
   * Provide long-term information storage, i.e., persistent storage
-* File Management System
+* **File Management System**
   * Implement an abstraction (i.e. files) for secondary storage
   * Organize files logically by directories
   * Permit sharing of data between processes, people, and machines
@@ -148,16 +145,16 @@
 
 #### File Operations
 
-* Creation
+* **Creation**
   * find space in file system
   * add entry to directory
   * map file name to location and attributes
-* Writing
-* Reading
+* **Writing**
+* **Reading**
   * Dominant abstraction: File &rightarrow; Stream
-* Reposition within a file
-* Deletion
-* Truncation/Appending
+* **Reposition within a file**
+* **Deletion**
+* **Truncation/Appending**
   * May erase all/part of the contents of a file while keeping attributes
 
 #### Handling File Operations
@@ -192,10 +189,10 @@
 
 #### Key Issue
 
-* Semantics of concurrent access
-  * reading process & writign process?
+* **Semantics of concurrent access**
+  * reading process + writign process?
   * multi processes open one file for writing?
-* Protection
+* **Protection**
 
 #### Addressing
 
@@ -208,37 +205,37 @@
 
 #### File Access Method
 
-* General-Purpose FS (Simple)
+* **General-Purpose FS (Simple)**
   * Sequetial access
     * read fixed  bytes one at a time in order
   * Direct access
     * random access given block/byte number
-* DBFS (Sophisticated)
+* **DBFS (Sophisticated)**
   * Record access
     * fixed/variable length
   * Indexed access
-* Example in real world
+* **Example in real world**
   * Unix/Linux
   * Windows
-* Older == More complicated
+* **Older == More complicated**
 
 #### File Sharing Implementation
 
-* File Link 
+* **File Link** 
   * a new dir entry with a pointer to another file or subdirectories
-* Link Type
-  * Symbolic/soft link
+* **Link Type**
+  * **Symbolic/soft link**
     * d_entry  with pointer to a d_entry that holds true path to the linked file
     * indirect and form a new d_entry point to the d_entry of the linked  file
-  * Hard link
+  * **Hard link**
     * d_entry  with pointer to the linked file
     * direct and form a new d_entry identical to the d_entry of the linked file
-* Issue With Links
-  * Multiple Absolute Path Per Files
+* **Issue With Links**
+  * **Multiple Absolute Path Per Files**
     * should avoid traversing shared structs in FS more than once
-  * Maintaining Consistency Problem
+  * **Maintaining Consistency Problem**
     * how to update permissions of hard link d_entry
-  * Shared File Space Deallocation + Reuse
+  * **Shared File Space Deallocation + Reuse**
     * deletion of the file entry itself deallocates space and leave the link pointers danling
     * keep a reference count for hard links
   * Sharing Signal
@@ -260,7 +257,7 @@
 
 #### Role
 
-* Logical structure for file systems
+* **Logical structure for file systems**
   * For user
     * a means to organize files
   * For FS
@@ -312,12 +309,11 @@
 
 #### Structure
 
-* FS Block Size
+* **FS Block Size**
   * the standard size defined by FS  of each block on  the disk
     * disk space is allocated in granularity of blks by this to store files in FS
   
-* Master Block/Partition Control Block/Superblock
-  
+* **Master Block/Partition Control Block/Superblock**
   * the important structure to connect the disk to PC
   
   * determine the location of root directory
@@ -325,27 +321,25 @@
     * often replicated across disk for reliability
     * include other metadata about FS
   
-* Free map
+* **Free map**
   * determine which blocks are free
     * usually a bitmap, one bit per block on the disk
     * also stored on disk, cached in memeory for performance
   
-* Remaining Disk Block/Data Block
-  
+* **Remaining Disk Block/Data Block**
   * store files and dirs
 
 #### Disk Layout Strategies
 
-* Cause
+* **Cause**
 
   * Files often span multiple disk blocks
-* Major Strategy
+* **Major Strategy**
 
-  * Contiguous Allocation
-
-    * all blocks of file are located together on disk
-
-    * Pros
+  * **Contiguous Allocation**
+* all blocks of file are located together on disk
+  
+* Pros
       * sequential access fast
       * allocation fast
       * deallocation fast
@@ -356,31 +350,29 @@
       * external fragmentation
       * require compaction
       * need to move whole files around
-
-  * Linked/Chained Structure
-
-    * each block point to the next, dir pointes to the first
-
-    * Pros
-      * ez sequential/streaming access
+  
+* **Linked/Chained Structure**
+  * each block point to the next, dir pointes to the first
+  
+  * Pros
+    * ez sequential/streaming access
       * disk blocks can be anywhere
       * no external fragmentation
     * Cons
       * direct access is expensive
       * if one data block is corrupted &Rightarrow; lost all rest of file
-
-  * Indexed Structure 
-
-    * An index block contains pointers to many other blocks
+    
+  * **Indexed Structure** 
+* An index block contains pointers to many other blocks
     * May require multiple, linked index blocks
-    * Pros
+  * Pros
       * handle reandom accsess well
       * small files, still quick for sequential and random access
       * no external fragmentation
     * Cons
       * limited file size
       * &uparrow;cost of access bytes near the end of large files 
-* Unix Inodes
+* **Unix Inodes**
 
   * ITSELF == Indexed Structure ( for files )
   * D_entry < file/dir_name, inode_of_file/dir >
@@ -396,7 +388,7 @@
     * Block [ 14 ] == Triple Indirect Block Pointer
       * disk addr of a block containing the disk addr of such double indirect blocks 
         * contain the disk addr of > 12 + 1 $\times$ BLOCK_SIZE $\times$ BLOCK_SIZE data blocks of this file/dir
-  * Imbalenced tree
+  * **Imbalenced tree**
     * Most files are small < 2KB
     * Files are usually accessed sequentially
     * Dir are typically small < 20 d_entry
@@ -465,7 +457,7 @@
   
 #### Disk Region
 
-* Superblock
+* **Superblock**
   * Key Region for mounting FS + Formatting Disk Into FS
     * OS read the superblock FIRST
     * identify FS type and other parameters from this
@@ -475,7 +467,7 @@
     * #inodes
     * #data block (not all blks)
     * index of inode table begin
-* Inode Table
+* **Inode Table**
   * Metadata structs storing info of each ( one ) file for FS to track
     * inode_block_id = $\frac{\text{inode id}}{\text{block size}}$
   * Structure
@@ -484,7 +476,7 @@
     * #block of  this file
     * block pointer[ max #of block pointer in inode ]
     * $\cdots$
-* Allocation Strucure/ Free Map
+* **Allocation Strucure/ Free Map**
   * keep track of which blks used/free
   * Structure 
     *  Bitmap (each bit == one block, 0 for free 1 for use)
@@ -520,7 +512,7 @@
 
 #### Other Approaches From Inode to Data
 
-* Extent - Based
+* **Extent - Based**
   * A new struct extent < pointer_to_start_block, #continuos_blk >
   * Pros
     * use smaller amount of metadata per file
@@ -533,7 +525,7 @@
     * HFS+
     * NTFS
     * XFS
-* Link - Based
+* **Link - Based**
   * LinkList from the first data block to next
   * Use an in-memory File Allocation Table indexed by address of data block
   * Example
@@ -592,25 +584,25 @@
 
 #### Disk Physical Structure
 
-* metal arm component
+* **metal arm component**
   * Arm
   * Actuator
   * Read/Write Head
-* circle platter component
+* **circle platter component**
   * Platter
   * Upper Surface
   * Lower Surface
-*  cylinder component
+*  **cylinder component**
   * Track
   * Sector ( bar by bar on track)
 
 #### Disk Performance
 
-* Performance Dependency
+* **Performance Dependency**
   * seeks reduced
   * large transfers are used
 
-* Seek
+* **Seek**
   * role
     * move the disk arm to the correct cylinder
   * time dependency
@@ -619,7 +611,7 @@
     * avg 5-6ms depending on distance
   * development improving speed
     *  very slowly ( 8% per year )
-* Rotation
+* **Rotation**
   * role
     * waiting for the sector to rotate under the head
   * time dependency
@@ -628,7 +620,7 @@
     * avg latency of a half rotation
   * development improving speed
     *  no change in recent year
-* Transfer
+* **Transfer**
   * role
     * transferring data  from surface into disk controller electronics 
     * sending it back to the host
@@ -644,35 +636,32 @@
 
 #### Hardware Optimization
 
-* Track Skew
-
-  * Problem
-
-    * if the arm moves to outer track too slowly $\to$  miss the close sector
-
-  * Address
+* **Track Skew**
+* Problem
+  
+  * if the arm moves to outer track too slowly $\to$  miss the close sector
+  
+* Address
     * skew the outer track location far at the same time head to meet sector 
-
-* Zone
-
-  * Problem
-
-    * each sector has fixed 512 size $\to$  outer tracks are larger by geometry 
-
-  * Address
+  
+* **Zone**
+* Problem
+  
+  * each sector has fixed 512 size $\to$  outer tracks are larger by geometry 
+  
+* Address
     *  Outer track shoude hold more sectors instead of same #sector /round
-
-* Cache (aka Track Buffer)
-
-  * Small Memory Chip
-
-    * part of the hard drive
-
-    * usually 8-16 MB
-
-  * Diff VS OS cache
-
-    *  it is aware of the disk geometry (OS cache is just an installation)
+  
+* **Cache (aka Track Buffer)**
+* Small Memory Chip
+  
+  * part of the hard drive
+  
+  * usually 8-16 MB
+  
+* Diff VS OS cache
+  
+  *  it is aware of the disk geometry (OS cache is just an installation)
     * when reading a sector, may cache the whole track to speed up future reads on the same track
 
 #### Disk and the OS ( Disk Interface )
@@ -711,7 +700,8 @@
   | :-------------- | :--- | ---- | ---- | ---- | ---- |
   | Head @       53 | 98   | 183  | 37   | 122  | 14   |
   
-  * FCFS 
+  * **FCFS** 
+    
     * reasonable when load is low
     * long waiting times for log request queues
     * example
@@ -722,7 +712,8 @@
       * time cost
         * |+45| + |+85| + |-146| + |+85| + |-108| = 469
     
-  * SSTF
+  * **SSTF**
+    
     * minimize arm movement ( i.e. seek time )
     * maximize request rate
     * favor middle blocks
@@ -745,7 +736,7 @@
       * time cost
         * |-16| + |-23| + |+84| + |+24| + |+61| = 208
     
-  * SCAN/Elevator
+  * **SCAN/Elevator**
     
     * service requests in one direction until sector 0, then reverse
     
@@ -769,11 +760,11 @@
     
         * |-16| + |-23| + |-14| + |+98| + |+24| + |+61| = 236
     
-  * C-SCAN
+  * **C-SCAN**
     
     * like SCAN but only go one direction ( like typewriter )
     
-  * LOOK/C-LOOK
+  * **LOOK/C-LOOK**
   
     * like SCAN/C-SCAN but only go as far as last request in each direction (not full width of the disk)
   
@@ -853,10 +844,10 @@
 
 #### High-Level Disk Characteristic
 
-* Closeness
+* **Closeness**
   * reduce seek times by putting related things close to one another
   * benifits can be $n^2$ range
-* Amortization
+* **Amortization**
   * amortize each positiong delay by grabbing lots of useful data
   * benifits can be $n^{10}$ range
 
@@ -869,14 +860,13 @@
 
 #### Allocation Strategy
 
-* Goal
+* **Goal**
   * improvment for Inodes on Indirection + Independence
     * +File size grows dynamically
     * +Allocations are independent
     * -Hard to achiece closeness and amortization
 
-* Traditional UNIX FS
-  
+* **Traditional UNIX FS**
   * Storage as linear array of blocks
     * each block has a LBN
   * Small blocks ( 1k )
@@ -891,30 +881,25 @@
       * fragmentaion of an aging file system causes more seeking
       * inodes allocated far from blocks, going back and forth from inodes to data blocks to traverse files/dirs causes more seeking
   
-* BSD FFS :  Disk-Aware File System
-
-  * Cylinder Group ( aka allocation group )
-
-    * disk partitioned into groups of cylinders
-    * data blocks in same file allocated in same grp
+* **BSD FFS :  Disk-Aware File System**
+* **Cylinder Group** ( aka allocation group )
+  * disk partitioned into groups of cylinders
+  * data blocks in same file allocated in same grp
     * files in same dir allocated in same grp
     * inodes for files allocated in same grp with file data blocks
     * superblock + bitmap + inode + datablock
-* Free space requirenent
-  
-  * the disk must have free space scattered across cylinder for allocation
+  * **Free space requirenent**
+    * the disk must have free space scattered across cylinder for allocation
     * 10%of the disk is reserved just for this purpose
     * when allocating a large file , break it into large chunks and allocated to different cylinder group instead of full the one group
     * if preferred cylinder group is full allocated from a nearby group
-  * Fix using larger block (4K)
-
+  * Fix **using larger block** (4K)
     * very large files only need two level of indirection
-  * introduce fragment ( 1k pieces of a block) to fix internal fragmentation
+  * introduce **fragment** ( 1k pieces of a block) to fix internal fragmentation
   * Pros
-  
-  * allocation group provides closeness
+    * allocation group provides closeness
     * reduce num of long seeks
-* Cons
+  * Cons
     * media failues
       * replicate master block
     * device oblivious
@@ -954,93 +939,87 @@
 
 #### fsck
 
-* Definition
-
-  * a Unix tool for finding inconsistencies and repairing them
-
-* Limitation
-
-  * only care the FS integrity/metadata is consistent
+* **Definition**
+* a Unix tool for finding inconsistencies and repairing them
+  
+* **Limitation**
+* only care the FS integrity/metadata is consistent
   * cannot know when Db is garbage
   * too slow
     * disks are very large nowadays scanning all this could take hours
     * even for snall inconsistency must scan whole disk
-
-* Check List
-
-  1. Superblock
-
-     * sanity checks
+  
+* **Check List**
+1. Superblock
+  
+   * sanity checks
      * use another superblock copy if suspected corruption
-
-  2. Free block
-
-     * scan inodes/indirect blocks, build bitmap
+  
+2. Free block
+  
+   * scan inodes/indirect blocks, build bitmap
      * inodes/data bitmaps inconsistency $\Rightarrow$ resolve by trusting inodes
-
-  3. Inode state
-
-     * check inode fields for possible corruption ( ex: must have valid mode )
+  
+3. Inode state
+  
+   * check inode fields for possible corruption ( ex: must have valid mode )
      * if cannot fix $\Rightarrow$ remove inode and update inode bitmap
-
-  4. Inode link
-
-     * verify #links for each inode
-
-       * traverse directory tree
-
-       * compute expected #link
+  
+4. Inode link
+  
+   * verify #links for each inode
+  
+     * traverse directory tree
+  
+     * compute expected #link
        * fix if needed
-
-     * if inode discovered but no dir refers to it $\Rightarrow$ move to "lost+found"
-
-  5. Duplicate
-
-     * check if two different inodes refer to same block
+  
+   * if inode discovered but no dir refers to it $\Rightarrow$ move to "lost+found"
+  
+5. Duplicate
+  
+   * check if two different inodes refer to same block
      * clear one if obviously bad / give each inodes its own copy of block
-
-  6. Bad blocks
-
-     * bad pointers outside of valid range
+  
+6. Bad blocks
+  
+   * bad pointers outside of valid range
      * remove the pointer from the inode or indirecrt block
-
-  7. Directory checks
-
-     * integrity of directory structure
+  
+7. Directory checks
+  
+   * integrity of directory structure
        * make sure "." and ".." are the first entries
        * each inode in a directory entry is allocated
        * no directory is linked more than once
 
 #### Journaling
 
-* aka Write-Ahead-Logging
-* Basic Idea
-
-  * log the operations you are about to do beforr overwriting structures
+* aka **Write-Ahead-Logging**
+* **Basic Idea**
+* log the operations you are about to do beforr overwriting structures
   * if crash during write$\Rightarrow$ go back to journal and return the actual write
     * don't need to scan the entire disk
     * can recover data as well
   * if crash before journal write finish $\Rightarrow$ act write not happened
     * nothing is inconsistent
-* Jounal Structure
-
-  * EXT3 FS Extend EXT2 with journaling capability
+* **Jounal Structure**
+* EXT3 FS Extend EXT2 with journaling capability
     * journal identical with on-disk format
     * can be just another large file
     * can be allocated from anywhere on disk like data blocks
   * contain a sequence of transaction
-* Transaction Structure
-
-  * TxBegin block
+* **Transaction Structure**
+* TxBegin block
     * contain a transaction TID
   * blocks with the content to be written
-    * physical logging
+    * **physical logging**
       * log exact physical content
-    * lofiacl logging
+    * **logical logging**
       * loh more compact logical representation
   * TxEnd block
     * contain a transaction TID
-* Journal Trade-off
+* **Journal Trade-off**
   * Pros
     * recovery is much faster with journaling
       * replay only a few transactions instead of checking the whole disk
@@ -1055,28 +1034,27 @@
       * writing time is at least doubled
     * journal writing may break sequential writing
       * need to jump back-and-forth betwen write to journal and to real
-* Data Jounraling Process
-
-  1. write the transaction to the log
+* **Data Jounraling Process**
+1. write the transaction to the log
      * option 1 : write each block at a time into Journal 
        * slow
        * unsafe if power off before several op before TxEnd same as valid
      * option 2: split into 2 steps
-       1. Journal Write Step
+       1. **Journal Write Step**
           * write all except TxEnd each block at a time into Journal 
           * if crash $\Rightarrow$ skip the pending update
-       2. Journal Commit Step
+       2. **Journal Commit Step**
           * write TxEnd only when step 1 completed into Journal 
-  2. Checkpoint Step
+  2. **Checkpoint Step**
      * write the blocks/actual data and metadata to right locations on FS
      * if crash $\Rightarrow$ 
        * on reboot
        * scan the journal and look for committed transactions
        * replay these transactions (after this FS is ensured consistent)
        * called redo loggiing
-  3. Free Step
+  3. **Free Step**
      * mark the transaction free in the journal
-* Metadata Journaling Process
+* **Metadata Journaling Process**
   * now we only write FS metadata to journal
   * option 1: same as data journaling process
     * unsafe 
@@ -1121,7 +1099,7 @@
 #### Another Approach
 
 * A new approach that prioritizes update performance
-* Gist
+* **Gist**
   * instead of overwriting in place, append to log and reclaim obsolete data later (garbage collect)
 
 * Observation + Solution
@@ -1144,7 +1122,7 @@
 
 #### LFS
 
-* Indexed Structure
+* **Indexed Structure**
 
   * write all FS data in  a continuous log
   * use inode and d_entry from FFS in Segment
@@ -1158,7 +1136,7 @@
     * first clean an existing partially-used segment
     * garbage collection
 
-* Locating Inodes
+* **Locating Inodes**
 
   * Unix FS v.s. LFS
     * ez for Unix FS
@@ -1168,17 +1146,18 @@
       * updates are sequential
         * indoes scattered all over the disk
       * indoes not static keep moving
-  * Imap
+  * **Imap**
     * an inode map to find the inodes
       * inode number no longer a simple index
     * chunks of imap are placed next to new information
       * get updated frequently so not fixed part
       * keep seeks and performance
-  * Checkpoint Region
+  * **Checkpoint Region**
     * pointers to the latest pieces of the inode map
       * find imap pieces by reading the CR
 
-* Crash Recovery
+* **Crash Recovery**
+  
   * Wrting Performance
     * buffer writes in segment
     * write segment to disk when full/at periodic time intervals
@@ -1191,7 +1170,7 @@
       * alternate writes
       * update protocol (header/body/last block)
   
-* Garbage Collection
+* **Garbage Collection**
 
   * Cause
 
@@ -1228,18 +1207,18 @@
 
 #### RAID
 
-* Reliability Strategy
+* **Reliability Strategy**
   * data duplicated
     * mirror images
     * redunant full copu
   * data spread out across multiple disks with redundancy
     * can recover form a disk failure by reconstructing the data
-* Concept
+* **Concept**
   * Redundancy/Mirroring
     * keep multiple copy of the same blk on diff drives in case drive failure
   * Parity Info
     * XOR each bit from 2 drives and store checksum on the $3^{rd}$drive
-* Multiple RAID level
+* **Multiple RAID level**
   * RAID 0 (2 diff disks)
     * Striping 
       * Files are divied across disks
@@ -1269,9 +1248,9 @@
 
 #### SSD Info
 
-* Definition
+* **Definition**
   * Replace rotating mechanical disks with non-volatile memory
-* Type
+* **Type**
   * Battery-backed RAM
   * NAND flash
 * Pro
@@ -1279,7 +1258,7 @@
 * Cons
   * expensive
   * wear-out/ flash-based
-* NAND flash storage technology op
+* **NAND flash storage technology op**
   * Read
   * Write
   * Erase!
@@ -1288,10 +1267,10 @@
 
 * Data cannot be modified "in place"
   * no overwrite without erase
-* Terminology
-  * Page
+* **Terminology**
+  * **Page**
     * unit of read/write op
-  * Block
+  * **Block**
     * unit of erase op
   * typically one block many pages
 * Uniform random access performance
@@ -1300,24 +1279,24 @@
 
 #### Writing
 
-* Problem
+* **Problem**
   * update a bitmap allocation block
     * finde the SSD block containing the target page
     * read all active pages in the SSD block into controller memory
     * update target page with new data in contorller memory
     * erase the SSD block  (high voltage to set all bits to 1)
     * write entire SSD block to drive
-* Impact
+* **Impact**
   * SSD blocks wear out /limited erase cycle
     * FS blocks are frequently update
-* Solution Algorithm
-  * Wear Leveling
+* **Solution Algorithm**
+  * **Wear Leveling**
     * always write to new location
     * map < lofical FS #block :  < current SSD #block, page location > >
     * old version of logically overwritten pages == stale (garbage collection)
-  * Garbage Collection
+  * **Garbage Collection**
     * reclaiming stale pages and creating empty erased blocks
-  * RAID 5 (with parity check) striping across I/O channels to multi NAND chips
+  * **RAID 5** (with parity check) striping across I/O channels to multi NAND chips
 
 #### FS And SSDs
 
@@ -1389,7 +1368,7 @@
 
 #### FS In Real World
 
-* FAT FS
+* **FAT FS**
 
   * Link Allocation
     * notice that links are in the File Allocation Table, not in the block itself
@@ -1401,7 +1380,7 @@
     * Poor locality
     * Limited file metadata and access control
 
-* NTFS
+* **NTFS**
 
   * Each volume is a linear sequence of blocks and a MFT ( 4KB SIZE )
 
@@ -1417,7 +1396,7 @@
     * significant flexibility
       * allow implement extra feature like compression and diff file type
 
-* VFS
+* **VFS**
 
   * an abstract file system interface
     * Separate abstraction and collections of file from speci implementation
@@ -1426,7 +1405,7 @@
   * abstraction layer is for OS itself
     * user-level programmers interacts with the file sys through the sys calls
 
-* EXT3
+* **EXT3**
 
   * Pros
     * recoverability
@@ -1435,7 +1414,7 @@
     * lack modern FS feature like extent
     * metadata is in fixed well-known location and DS have redundancy
 
-* FFS
+* **FFS**
 
   * Inode
     * store disk block index
@@ -1477,7 +1456,7 @@
   * Linux
     * EXT2/3/4
       * EXT2 borrowed heavily from FFS
-      * updated on reliadbility and write optimization
+      * updated on reliability and write optimization
     * ReiserFS
     * XFS/JFS
     * btrfs
