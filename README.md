@@ -10,4 +10,4 @@
 
 #### FS
 
-* <https://surprise777.github.io/notes/FS>
+* https://surprise777.github.io/notes/FS
