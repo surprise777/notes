@@ -84,7 +84,7 @@
   * Running ( CPU working env )
   * Exit
 * **Cycle**
-  * New $\stackrel{Admit}{\longrightarrow}$ Ready  $\stackrel{Dispatch}{\longrightarrow}$  Running $$ \left\{\begin{matrix} ---------\stackrel{Time-out}{\longrightarrow} \text{Ready} \\ \\ \stackrel{Event-Wait}{\longrightarrow} \text{Blocked} \stackrel{Event-Occur}{\longrightarrow} \text{Ready}   \\  \\ -----------\stackrel{Release}{\longrightarrow} \text{Exit}  \\ \end{matrix} \right. $$
+  * New $\stackrel{Admit}{\longrightarrow}$ Ready  $\stackrel{Dispatch}{\longrightarrow}$  Running( **CPU Burst** ) $$ \left\{\begin{matrix} ---------\stackrel{Time-out}{\longrightarrow} \text{Ready} \\ \\ \stackrel{Event-Wait}{\longrightarrow} \text{Blocked }\textbf{(I/O Burst)} \stackrel{Event-Occur}{\longrightarrow} \text{Ready}   \\  \\ -----------\stackrel{Release}{\longrightarrow} \text{Exit}  \\ \end{matrix} \right. $$
 
 #### Keep Track Of Process
 
