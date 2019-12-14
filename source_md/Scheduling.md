@@ -175,7 +175,7 @@
 
 * aka Shortest-Process-Next / SJF / SPN
 * Characteristic
-  * provably optimal w.r.t avg waiting time
+  * provably optimal w.r.t ==avg waiting time==
   * non-preemptive
     * notice that preemptive version is "Shortest-Remaining-Time"
 * Functionality
@@ -199,9 +199,66 @@
   * notice that Critical Choice of Quantum ( i.e. time slice )
     * As $q \to \infin $ $\Rightarrow$ RR $\to$ FCFS
     * As $q \to 0 $ $\Rightarrow$ Overhead of switching overwhelms useful time
-  * so we wnat $q$ to be large depends on the Context Switch Time ( i.e. Turn around time for each process )
+  * so we wnat $q$ to be large depends on the Context Switch Time (==WHY?==)
 
+#### Round Robin Efficiency
 
+* Example Problem
+  * Measurements of a certain system have shown that 
+    * the average process runs for a time T before blocking on I/O.
+    *  A process context switch requires a time S, which is effectively wasted (overhead). 
+    * The performance measure of interest is CPU efficiency, defined as
+      *  the ratio of useful CPU time over total CPU time. 
+    * Round-robin (RR) scheduling with a quantum of length Q
+  * Give a formula for CPU efficiency in each of the following cases  for RR scheduling
+  
+* Q = $\infin$ 
+
+  * No involuntary context switches will occur
+  * Each process will pay 1 context switch per CPU burst
+  * Useful = T
+  * Total = T + S
+  *  Efficiency = $\frac{T}{T+S}$
+
+* Q > T
+
+  * As long as the Q > T $\Rightarrow$ No involuntary context switches will occur
+  * Useful = T
+  * Total = T + S
+  *  Efficiency = $\frac{T}{T+S}$
+
+* S < Q < T
+
+  * Since T > Q $\Rightarrow$ each process will cannot finish the task in one quantum 
+
+  * So calculate the number of time quantum a process need 
+
+    * m = $\frac{T}{Q}$ (a process finish need T and each time only have Q time to work so T/Q should be the slice we seperate T by Q)
+
+  * since each process need to do the context switch for each time quantum they need to use based on m
+
+    * a process need to do m times context switch in its cycle
+
+    * we know context switch per each time cost S
+
+  * So calculate the total cost of context switch for each process
+
+    * costS = m$\times$ S = $\frac{ST}{Q}$
+
+  * Useful = T
+
+  * Total = T + $\frac{ST}{Q}$
+
+  * Efficiency =  T / (T + $\frac{ST}{Q}$) = $\frac{1}{1 + \frac{S}{Q}}$
+
+* Q = S
+
+  * if Q < T 0.5 (see equation above)
+  * if Q > T same as Q > T
+
+* Q nearly 0
+
+  * efficiency approaches to 0  (see equation above)
 
 ### Priority Scheduling 
 
@@ -243,7 +300,7 @@
 * Definition
 
   * adjust criteria for choosing a particular thread based on past history
-    * boost priority of threads that have waited a long time / aging
+    * boost priority of threads that have waited a long time / ==aging==
     * prefer threads that do not use full time quantum
     * boost priority following a user-input event
     * adjust expected next CPU-Burst
@@ -476,3 +533,16 @@
   * variable class thread's time quantum == 0 $\Rightarrow$ priority &downarrow;
   * variable class thread is released from a wait $\Rightarrow$ priority &uparrow;
 
+### Summary
+
+#### Definition
+
+##### Starvation
+
+* a condition in which a process is blocked indefinitely because another process is always given preference
+
+* may occure because of priority scheduling or unfair synchron
+
+##### Turnarround Time
+
+* the difference between the time at which a process arrives and the time at which it completes

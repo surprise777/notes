@@ -86,11 +86,11 @@
 
 #### Policy Decision
 
-* mechanism Precondition
+* ==mechanism== Precondition
   * PT
   * MMU
   * TLB
-* Policy Precondition
+* ==Policy== Precondition
   * Fetch Policy
     * when to fetch a page
     * Demand paging VS Prepaging
@@ -164,6 +164,13 @@
       * great for fast allocation
     * Con
       * generally harder to coalesce
+* Improvment performance of the allocation algorithm
+  * keep the hole list sorted
+    * Pro
+      * when blocks are freed we would like the ability to coalesce adjacent free blocks into single larger block
+      * It is much easier if the free blocks list is sorted by address 
+      * we just have to look at the preceding and following block on the list once we find the insertion point for the newly freed blocks
+      * otherwise all free blocks have to be examined to determine if coalescing is possible or not
 * Hardware for Relocation Requirement 
   * Basic Idea
     * add relative addr to the process starting/base addr to form a real addr
@@ -223,13 +230,13 @@
 * Paging Process
   
   1. Partition (Computer) memory into equal and fixed-size chunks
-     * aka frame
+     * aka page frame
      * like a small book shelf
   2. Divide the process memory into the same-size chunks
      * aka page
      * like huge amount of books
   3. Any page can be assigned to any free frame
-     * no external fragmentation
+     * ==no external fragmentation==
      * internal fragmentation is at most a part of a page
        * usually pagesize = 4K
      * like putting books into shelf
@@ -379,6 +386,18 @@
       | Master Page Number ( 10 )   | Secondary ( 10 )      | Offset ( 12 )            |
 
   * #bit of offset = $log_2$(page_size)
+
+  * #bit of (MPN + MPF) =  $log_2$(#Virtual Page)
+
+  * #bit of MPF =  $log_2$(#Physical Page Frame / #PTE)
+
+  * #bit of MPN =   $[ log_2$(#Virtual Page) $]^{\frac{1}{\#PT\_LEVEL}}$ 
+
+  * Remember To Get Rid Of Leading Zero
+
+  * Notice That Mem Dump 2 Level Are In Same Page
+
+    * MD[MPN] $\to$ MD [ MD[MPN] ] $\to$ **PTE**
 
   * Common Number
 
@@ -695,20 +714,20 @@
   * it is a stack algorithm so no Belady's anomaly
   
 * Implementing LRU
-  * Option 1: Time Stamp
+  * Option 1: ==Time Stamp==
     * implementation
       1. time stamp every reference
       2. evict page with the oldest time stamp
     * problem
-      * need PTE big enough to holde meaningful time stamp (space complexity)
-      * need to examine every page on eviction to find the oldest one (time complexity)
-  * Option 2: Stack
+      * ==need PTE big enough to holde meaningful time stamp (space complexity)==
+      * ==need to examine every page on eviction to find the oldest one (time complexity)==
+  * Option 2: ==Stack==
     * implementation 
       1. keep pages in a stack
       2. on reference $\Rightarrow$ move the page to the top of the stack
       3. on eviction $\Rightarrow$ replace the page at bottom
     * problem
-      * need costly software operation to manipulate stack on EVERY memory reference process
+      * ==need costly software operation to manipulate stack on EVERY memory reference process==
 
 * Example
 
@@ -1011,3 +1030,14 @@
   * Process has less control over data movament
     * OS handles faults transparently
   * Does not generalized to streamed I/O like pipes / sockets
+
+### Summary
+
+#### Definition
+
+##### Page Frame
+
+* a fixed-size block og physical memory used in paging system
+* hold parts of a process's address space
+* frames are identical
+* any frame can be used to hold any page for any process

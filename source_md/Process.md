@@ -83,7 +83,7 @@
   * Blocked
   * Running ( CPU working env )
   * Exit
-* **Cycle**
+* ==**Cycle**==
   * New $\stackrel{Admit}{\longrightarrow}$ Ready  $\stackrel{Dispatch}{\longrightarrow}$  Running( **CPU Burst** ) $$ \left\{\begin{matrix} ---------\stackrel{Time-out}{\longrightarrow} \text{Ready} \\ \\ \stackrel{Event-Wait}{\longrightarrow} \text{Blocked }\textbf{(I/O Burst)} \stackrel{Event-Occur}{\longrightarrow} \text{Ready}   \\  \\ -----------\stackrel{Release}{\longrightarrow} \text{Exit}  \\ \end{matrix} \right. $$
 
 #### Keep Track Of Process
@@ -145,15 +145,14 @@
 
 #### Process Destruction
 
-* SysCall```exit()``` Problem
-
-  * a process voluntarily release all resources when invoking ```exit()```  
+* ==SysCall```exit()``` Problem==
+* a process voluntarily release all resources when invoking ```exit()```  
   * but OS can't discard everything immediately
     * must stop running the process to free everything
     * require context switch to another process
     * parent may be waiting or asking for return value
   * result : not all data free
-
+  
 * Zombie
 
   * - [ ] PID retain
@@ -183,7 +182,7 @@
 * Inheritance
 
   * some OS like Unix
-    * parent Process define/donate resource + privilege for children process
+    * ==parent Process define/donate resource + privilege for children process==
 
 * State Change Between Parent And Childern
 
@@ -312,7 +311,7 @@
   * CPU 
     * a hardware device has an event that needs attention
     * like Disk I/O completes
-  * error/request
+  * ==error/request==
     * for OS intervention/sysCall
     * often called an exception/trap
   * the interrupt handler
@@ -381,7 +380,7 @@
   
 * When user program try to execute a privileged instruction
   
-  * Invoking System Call Interface 
+  * ==Invoking System Call Interface==
     1. user program 
        * call C library function with arguments
     2. C library function 
@@ -436,7 +435,8 @@
           * ```copy_from_user()```
           * ```copy_to_user()```
 
-* Dispatch Process
+* ==Dispatch Process==
+  
   1. Kernel
      * assign each sysCall type := sys_call_num (unique)
      * init sys_call_table
@@ -451,9 +451,10 @@
   4. Kernel
      * look up sys_call_table using specific sys_call_num
      * invoke the corresponding function
-     * return by running inrerrupt return: ```iret``` 
-
-* Example: ```write()``` in Linux
+   * return by running inrerrupt return: ```iret``` 
+  
+* ==Example: ```write()``` in Linux==
+  
   1. Start as User Mode
      
   2. User program code
@@ -662,7 +663,7 @@
 
   * OS interact with multiple running programs $\Rightarrow$ multithreaded
 
-* Multithreaded Process Address Space
+* ==Multithreaded Process Address Space==
 
   * |              | Thread                                | PC                      | SP     |
     | ------------ | ------------------------------------- | ----------------------- | ------ |
@@ -749,11 +750,11 @@
 
 * Bottomline In General
 
-  * disadvantage of process
+  * ==disadvantage of process==
     * more heavy-weight than threads
     * have a higher startup/shutdown cost than threads
 
-  * advantage of process
+  * ==advantage of process==
     * safer and more secure
       * each process has its own address space
   * disadvantage of thread
@@ -855,7 +856,7 @@
 
     * two concurrent threads manipulated a **shared resource** (account) without any synchronization
     * outcome depends on the order of the accesss take place
-    * notice that race condition can occur on  a uniprocessor
+    * ==notice that race condition can occur on  a uniprocessor==
 
   * Solution
 
@@ -877,7 +878,7 @@
       * if one thread is in the CS then no other is
     * all other threads are forced to wait on entry
     * when a thread leaves the CS another can enter
-  * Progress
+  * ==Progress==
     * if no thread in CS and some threads wnat to enter CS
       * only **not-in-RS** threads can decide the choice of next enter thread
         * note that remainder section ```== !CS```

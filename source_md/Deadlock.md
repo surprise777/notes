@@ -25,7 +25,7 @@
 
 #### Resource Deadlock
 
-* Root Cause
+* ==Root Cause==
   * Resources are finite
   *  Resource is unavailable \&\&  the processes need it $\Rightarrow$ processes wait  
   * Resource may be held by other waiting processes
@@ -166,7 +166,7 @@
   * Ignore the problem and hope it doesn't happen often
 * Reason
   * no single strategy for dealing with deadlock is appropriate for all resources in all situation
-  * all strategies are costly in terms of 
+  * ==all strategies are costly in terms of==
     * computation overhead
     * restricting use of resources
 * If a lock guarantee progress $\Rightarrow$ Break Circular Wait $\Rightarrow$ dead-lock free
