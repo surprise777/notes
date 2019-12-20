@@ -37,12 +37,12 @@
 
   * PID
 
-  * Address Space
+  * **Address Space**
     * code + data for executing program
     * Heap
     * register
       * general-purpose with current value
-  * Execution State 
+  * **Execution State** 
     * stack + stack pointer
       * encapsulated the state of procedure calls
     * PC
@@ -99,10 +99,10 @@
 #### From Program to Process (Initial Process)
 
 * Initial Process ( New $\stackrel{Admit}{\longrightarrow}$ Ready  $\stackrel{Dispatch}{\longrightarrow}$  Running )
-  1. Create new process
+  1. **Create new process**
      * Create new PCB
-     * Create user address space structure
-     * Allocate memory
+     * **Create user address space structure**
+     * **Allocate memory**
   2. Load executable
      * Initialize start state for process
      * Change/link state to *Ready*
@@ -111,17 +111,18 @@
 
 #### State Change: Ready to Running
 
-* Context Switich
+* **Context Switich**
+  
   * switch the CPU to another process
     1. save the state of the old process
     2. load the saved state for the new process
   
 * kernel mode working process
   1. Process voluntarily call ```yield()``` system call
-  2. Proces makes other system call and block itself
-  3. Time interrupt handler decide to switch process
+  2. Process makes other system call and block itself
+  3. **Time interrupt handler decide to switch process**
   
-* Example Switch Detail: Process A $\to$ Process B
+* ==Example Switch Detail: Process A $\to$ Process B==
 
   | USER Level            | HARDWARE Level                              | OS KERNEL MODE Level                          |
   | --------------------- | ------------------------------------------- | --------------------------------------------- |
@@ -150,7 +151,7 @@
   * but OS can't discard everything immediately
     * must stop running the process to free everything
     * require context switch to another process
-    * parent may be waiting or asking for return value
+    * **parent may be waiting or asking for return value**
   * result : not all data free
   
 * Zombie
@@ -359,24 +360,24 @@
 
 * Cause
   * hardware runs in either User Mode or System/Kernel Mode
-  * privileged Instruction can only run in hardware's system/kernel mode
+  * **privileged Instruction can only run in hardware's system/kernel mode**
   
-* Type
-  * Access I/O Device
+* **Type**
+  * **Access I/O Device**
     * poll for IO
     * perform DMA
-    * catch hardware interrupt
-  * Manipulate Memory Management
+    * **catch hardware interrupt**
+  * **Manipulate Memory Management**
     * set up page tables
     * load/flush the TLB and CPU caches
-  * Configure Various Mode Bit
-    * interrupt priority level
+  * **Configure Various Mode Bit**
+    * **interrupt priority level**
     * software trap vector
   * Call halt instruction
     * put CPU into low-power
     * idle state until next interrupt
   * Instruction Enforced by the CPU Hardware Itself
-    * CPU check current protection level on each instruction
+    * **CPU check current protection level on each instruction**
   
 * When user program try to execute a privileged instruction
   
@@ -385,7 +386,7 @@
        * call C library function with arguments
     2. C library function 
        * pass arguments to OS ==including a sysCall Identifier==
-    3. execute special instruction (x86: INT) to **trap** to system/kernel mode
+    3. **execute special instruction (x86: INT)** to **trap** **to system/kernel mode**
        * interrupt/trap vector transfers "control" to a "syscall handler routine"
     4. sys call handler
        * figure out which system call is needed
@@ -397,7 +398,7 @@
 
 * Precondition
 
-  * kernel must verify arguments that it is passed
+  * **kernel must verify arguments that it is passe**d
     * may wrongly call system function then change the OS resource
   * a fixed number of arguments can be passed in registers
     * often pass the adddress of a user data buffer
@@ -445,9 +446,9 @@
      * set up specific sysCall num + argument
      * run ```int N``` (N = 0x80 on Linux)
   3. Hardware
-     * switch to kernel mode
-     * interrupt dispatch
-       * invoke kernel's interrupt handler for X 
+     * **switch to kernel mode**
+     * **interrupt dispatch**
+       * **invoke kernel's interrupt handler for X** 
   4. Kernel
      * look up sys_call_table using specific sys_call_num
      * invoke the corresponding function
@@ -608,8 +609,8 @@
     * execute a web server
     * any program using ```fork()```
   * Creation Process
-    1. create multiple isolated process that execute in parallel
-    2. map each to the same address space/shared memory region to share data
+    1. **create multiple isolated process that execute in parallel**
+    2. **map each to the same address space/shared memory region to share data**
        * notice that all of them must be the same computation
     3. OS schedule these processes in parallel logically/physically
     * Problem: Inefficient
@@ -619,11 +620,11 @@
         * $\cdots$
       * time comlexity &uparrow;
         * create DS
-        * fork and copy addr space
+        * **fork and copy addr space**
         * $\cdots$
       * IPC
         * extra work is needed to share and communicate across isolated processes
-          * since ```fork()``` create isolated process
+          * since ```fork()``` **create isolated process**
 
 #### From Process to Thread
 
@@ -659,34 +660,33 @@
 
   * a single control flow through a program
   
-* Multithread == Multiple control flows
+* **Multithread == Multiple control flows**
 
-  * OS interact with multiple running programs $\Rightarrow$ multithreaded
+  * **OS interact with multiple running programs $\Rightarrow$ multithreaded**
 
 * ==Multithreaded Process Address Space==
 
-  * |              | Thread                                | PC                      | SP     |
-    | ------------ | ------------------------------------- | ----------------------- | ------ |
-    | Stack (T1)   | connect PC(T1) and SP(T1) by Thread 1 |                         | SP(T1) |
-    | Guard Region |                                       |                         |        |
-    | Stack (T2)   | connect PC(T2) and SP(T2) by Thread 2 |                         | SP(T2) |
-    | Guard Region |                                       |                         |        |
-    | Stack (T3)   | connect PC(T3) and SP(T3) by Thread 3 |                         | SP(T2) |
-    | Guard Region |                                       |                         |        |
-    | $\cdots$     |                                       |                         |        |
-    | Heap         |                                       |                         |        |
-    | Static Data  |                                       |                         |        |
-    | Code         |                                       | PC(T1) , PC(T2), PC(T3) |        |
+  * |              | Thread                                | PC                          | SP         |
+    | ------------ | ------------------------------------- | --------------------------- | ---------- |
+    | Stack (T1)   | connect PC(T1) and SP(T1) by Thread 1 |                             | SP(T1)     |
+    | Guard Region |                                       |                             |            |
+    | Stack (T2)   | connect PC(T2) and SP(T2) by Thread 2 |                             | **SP**(T2) |
+    | Guard Region |                                       |                             |            |
+    | Stack (T3)   | connect PC(T3) and SP(T3) by Thread 3 |                             | SP(T2)     |
+    | Guard Region |                                       |                             |            |
+    | $\cdots$     |                                       |                             |            |
+    | Heap         |                                       |                             |            |
+    | Static Data  |                                       |                             |            |
+    | Code         |                                       | **PC**(T1) , PC(T2), PC(T3) |            |
 
 #### Kernel-Level Thread
-* Thread In kernel Level
-  
+* **Thread In kernel Level**
   * aka Kernel-Level Thread / Lightweight Process
   
   * Kernel-Level threads are managed and constructured by OS 
     * OS separate the execution state of process into a thread abstraction
-      * make concurrency cheaper
-        * Less state to allocate and initialize
+      * **make concurrency cheaper**
+        * **Less state to allocate and initialize**
     * OS manage thread + process
       * all thread op are implemented in the kernel
       * OS schedule all of the threads in the system
@@ -695,9 +695,8 @@
     * NTFS: threads
     * Solaris: lightweight processes
   
-* Kernel Thread Limitation
-
-  * suffer from too much overhead for a fine-grained concurrency
+* **Kernel Thread Limitation**
+* **suffer from too much overhead for a fine-grained concurrency**
     * thread op still require sysCall
       * ideally want thread op to be as fast as a procedure call
     * kernel level threads have to be general
@@ -709,25 +708,25 @@
 
 * Characteristic
   * User-Level Threads are managed ==entirely== by the run-time system/user-level library
-  * small and fast
-    * simple structure
-      * PC
-      * registers
-      * stacks
-      * small TCB
-    * no kernel involvement when creating a new thread
+  * **small and fast**
+    * **simple structure**
+      * **PC**
+      * **registers**
+      * **stacks**
+      * **small TCB**
+    * **no kernel involvement when creating a new thread**
       * switching between thread
       * synchronizing threads are done via procedure call
     * up to 100x faster than kernel thread
       * notice that still depend on the quality of both implementation
 * Limitation
   * Cause
-    * invisible to the OS 
+    * **invisible to the OS** 
       * they are not will integrated with OS
   * Result
     * OS can make poor decision
       * scheduling a process with idle thread
-      * block a process whose thread initated an I/O though the porcess has other threads that can execute
+      * **block a process whose thread initated an I/O though the porcess has other threads that can execute**
       * de-scheduling a process with a thread holding a lock
   * Solution
     * require communication between the kernel and the use-level thread manager
@@ -751,14 +750,14 @@
 * Bottomline In General
 
   * ==disadvantage of process==
-    * more heavy-weight than threads
+    * **more heavy-weight than threads**
     * have a higher startup/shutdown cost than threads
 
   * ==advantage of process==
-    * safer and more secure
+    * **safer and more secure**
       * each process has its own address space
   * disadvantage of thread
-    * a thread crash $\to$ take down all other threads
+    * **a thread crash $\to$ take down all other threads**
     * a thread's buffer overrun $\to$ create security problem for all
 
 * Choice depends on application type
@@ -794,7 +793,7 @@
 #### Scheduling Precondition
 
 * Multiple threads/process ready to run
-* Mechanism for switching between threads/process
+* **Mechanism for switching between threads/process**
   * context switch
 * Pre-emptive policy for choosing the next process to run
   * thread/process can't anticipate when forced to yield the CPU
@@ -872,22 +871,22 @@
 * Definition
   * A segment of code which access $\R$ 
   * aka CS
-* Requirement
-  * Mutual Exclusion
+* **Requirement**
+  * **Mutual Exclusion**
     * only one thread at a atime can execute in the CS
       * if one thread is in the CS then no other is
     * all other threads are forced to wait on entry
     * when a thread leaves the CS another can enter
   * ==Progress==
     * if no thread in CS and some threads wnat to enter CS
-      * only **not-in-RS** threads can decide the choice of next enter thread
+      * only **not-in-RS** threads **can decide the choice of next enter thread**
         * note that remainder section ```== !CS```
       * choice cannot be postponed indefinitely
-  * Bounded Waiting / No Starvation
+  * **Bounded Waiting / No Starvation**
     * if  $T_i$ is waiting on the CS and before $T_i$ is granted access
       * there is a limit on the number of **times/frequency about other threads enter CS **
 * Performance
-  * the overhead of entering / exiting the CS is small
+  * **the overhead of entering / exiting the CS is small**
     * depend on the work being done within it
 
 #### CS 2-Thread Solution
@@ -1078,13 +1077,13 @@
 
 #### Disabling Interrupts
 
-* On a uniprocessor OS
-  * disable interrupts before entering CS
-* Pro
+* On a **uniprocessor** OS
+  * **disable interrupts before entering CS**
+* **Pro**
   * useful for short CS in OS
 * Limitation
-  * not sufficient on a multiprocessor
-  * need some atomic instruction
+  * **not sufficient on a multiprocessor**
+  * **need some atomic instruction**
 
 #### Test And Set
 
@@ -1095,7 +1094,7 @@
   3. return the old value
 
 * Flavour
-  * HW executes this atomically
+  * **HW executes this atomically**
   * Can be used to implement simple lock variables
 * Definition
 
@@ -1150,20 +1149,20 @@
         }
         ```
 
-  * Pro
+  * **Pro**
 
     * with hardware support we create primitive locks, make it easier and more efficient to sychron
 
   * Limitation
 
-    * Spinlocks are built on machine instructions
-      * Uses Busy Waiting Problem
+    * **Spinlocks are built on machine instructions**
+      * Uses **Busy Waiting** Problem
         * thread continually executes the ```while()``` loop in ```acquire()``` 
         * consuming CPY cycles
-      * Starvation Is Possible
-        * when a thread leave its CS, the next one to enter depends on scheduling
+      * **Starvation Is Possible**
+        * when a thread leave its CS, the next one to enter **depends on scheduling**
         * a waiting thread could be denied entry indefinitely by scheduling
-      * Deadlock is possible through **priority inversion**
+      * **Deadlock is possible** through **priority inversion**
 
 * Sleep lock
 
@@ -1201,22 +1200,22 @@
   * ADT for synchronization 
   
 * Structure
-  * an integer counting variable
+  * **an integer counting variable**
     * only accessed by 2 atomic operations
     * represent the number of threads that can pass through ```wait()``` before it blocks
   
 * Requirement
 
   * a queue of waiting threads
-  * atomicity of ```wait()``` and ```signal()```
+  * **atomicity** of ```wait()``` and ```signal()```
     * must ensure two threads cannot execute wait() and signal() at the same time
     * otherwise will cause the CS problem
     * solution
-      * use lower-level primitves to implement wait and signal
+      * **use lower-level primitves to implement wait and signal**
         * for uniprocessor
           * disable interrupts / hardware instruction
         * for multiprocessor
-          * hardware instruction
+          * **hardware instruction**
 
 * Operation
   * ```wait()```
@@ -1324,11 +1323,11 @@
 #### Lock VS Semaphore
 
 * Similarity
-  * a mutex semaphore with init value 1 == lock
+  * **a mutex semaphore with init value 1 == lock**
 * Diff
   * semantic difference 
     * a lock has an owner and can only be released by its owner
-  * sem permit error checking
+  * **sem permit error checking**
   * sem help reason about the correct behaviour 
 
 #### Rendezvous Problem With Semaphore
@@ -1440,7 +1439,7 @@
   * reason
 
     * the lock 
-      1. protects the shared data that is modified 
+      1. **protects the shared data that is modified** 
       2.  tested when to decide op like wait/signal/broadcast
 
   * general usage
@@ -1465,8 +1464,8 @@
 #### Locks + Condition Varible
 
 * convenient way to 
-  * provide mutual exclusion for CS
-  * blcok a thread that has to wait for something to happen
+  * **provide mutual exclusion for CS**
+  * **blcok a thread that has to wait for something to happen**
 * some modern language provide built-in support for automatic locking for objects
   * Java synchronized method
   * Monitor (ADT for synchronization )

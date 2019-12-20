@@ -26,9 +26,9 @@
 #### Resource Deadlock
 
 * ==Root Cause==
-  * Resources are finite
-  *  Resource is unavailable \&\&  the processes need it $\Rightarrow$ processes wait  
-  * Resource may be held by other waiting processes
+  * Resources are **finite**
+  *  Resource is unavailable \&\&  **the processes need it** $\Rightarrow$ processes wait  
+  * Resource may be held **by other waiting processes**
 * Resource
   * any object that might be needed by a process to do its work
   * main type
@@ -92,11 +92,11 @@
 
 * Option 1: Break Hold + Wait
 
-  * Problem
+  * **Problem**
 
     * may wait a long time for all resources to be available at the same time
     * must acquire all locks at the start other than when they are really needed
-      * $\Rightarrow$ limit concurrency
+      * $\Rightarrow$ **limit concurrency**
     * some longer processs may hold locks for a long time before they end up using them 
       * $\Rightarrow$ blocking other processes 
     * may not know all resource requirement in advance

@@ -27,7 +27,7 @@
 * Requirment
 
   * Memory system must see physical address
-    * Need Translation done by MMU
+    * **Need Translation done by MMU**
 
 * Layout
 
@@ -116,6 +116,7 @@
 #### Partitioning
 
 * Contiguous Allocation
+
 * Idea
 
   * Fixed Equal-Slice Partition
@@ -129,6 +130,7 @@
     * need compaction
     * require relocatable
     * need to know maximum size of process at load time
+  
 * Placement Heuristics
 
   * First-fit
@@ -136,41 +138,49 @@
     * algorithm idea
       * choose the first block that is large enough
       * search can start at beginning or where previous search ended /Next-fit
-  * Pro
+    * **Pro**
+    
       * Simplest and often fastest and most efficient 
     * Con
-      * internal fragmentation
+      * **internal fragmentation**
     * free space becomes fragmented more rapidly
-        * since next-fit variant allocate from end of memory
-  
-  * Best-fit
-  * algorithm idea
-      * choose the block that is closest in size to the request
-  * Pro
-      * Left-over fragment tend to be small
-    * Con
-      * similar storage utilization with FF
+      * since next-fit variant allocate from end of memory
     
+  * Best-fit
+  
+      * algorithm idea
+  
+        * choose the block that is closest in size to the request
+  
+      * Pro
+  
+      * **Left-over fragment tend to be small**
+      * Con
+        * **similar storage utilization with FF**
   * Worst-fit
     * algorithm idea
       * choose the largest block
   * Con
-      * Not good
+    
+    * Not good
     
   * Quick-fit
     * algorithm idea
       * keep multiple free lists for common block size
     * Pro
-      * great for fast allocation
+      * **great for fast allocation**
     * Con
-      * generally harder to coalesce
+      * **generally harder to coalesce**
+  
 * Improvment performance of the allocation algorithm
+
   * keep the hole list sorted
     * Pro
       * when blocks are freed we would like the ability to coalesce adjacent free blocks into single larger block
       * It is much easier if the free blocks list is sorted by address 
       * we just have to look at the preceding and following block on the list once we find the insertion point for the newly freed blocks
       * otherwise all free blocks have to be examined to determine if coalescing is possible or not
+
 * Hardware for Relocation Requirement 
   * Basic Idea
     * add relative addr to the process starting/base addr to form a real addr
@@ -247,7 +257,7 @@
   
 * Page Address Translation
   
-  * Hardware MMU convert VA into PA using Page Table 
+  * **Hardware MMU convert VA into PA using Page Table** 
   * Notice that OS process has their own Page Table
 * Time complexity
   
@@ -287,7 +297,8 @@
       * Physical addr = frame number + page offset
         * paddr = page_table[ vaddr / page_size  ] + vaddr % page_size
         * page_table[   [ vaddr >> $log_2$(page_size) ]$_{2\to10}$   ]  << [ $log_2$(page_size) ]$_{2\to10}$  | (vaddr \& 0x3FF )
-  * Hardware Support
+  * **Hardware Support**
+    
     * PTBR
       * indicate where the page table starts
   
@@ -348,10 +359,10 @@
 
 * PageTable store in protected memory
 
-* Limitation
+* **Limitation**
 
   * Space
-    * mem require for page table can be large
+    * **mem require for page table can be large**
       * need one PTE per page
       * direct page table (increase page size ) will cause internal fragmentation 
       * increase page table (i.e. one per code, stack, heap) will cause external fragmentation 
@@ -360,7 +371,7 @@
       2. hashed PT
       3. Inverted PT
   * Time
-    * mem reference overhead time
+    * **mem reference overhead time**
       * 2 mem reads/reference per address lookup
         1. read PT
         2. read actual mem
@@ -413,7 +424,7 @@
 * Trade-off
 
   * Save space
-  * Add more level of indirection when translating address
+  * **Add more level of indirection when translating address**
   * Linux use 3-level page tables
 
 * 64-bit Address Space
@@ -462,7 +473,7 @@
 
 #### Manage TLB
 
-* who to place the translation / load TLB
+* ==who to place the translation / load TLB==
   * Hardware-loaded / MMU
     * eg: Intel Pentium
     * know PTBR (where page tables are in main mem)
@@ -482,28 +493,28 @@
     * tables can be any format convenient for OS
       * flexible
 * Ensure Consistency
-  * OS ensure TLB and PR are consistent
+  * **OS ensure TLB and PR are consistent**
     * invalidate the entry of the catched copy of the PT in TLB when it change the protection bits of a PTE
 * Reload TLB on a process context switch
   * invalidate all entries / flush the TLB
-  * how to fix it (????)
-* TLB Miss
+  * how to fix it ( **Scheduling** )
+* **TLB Miss**
   * a new PTE has to be loaded
   * a cached PTE must be evivted
     * choosing PTE to evict == TLB Replacement Policy
-    * implemented in hardware for hardware loaded TLB
+    * **implemented in hardware for hardware loaded TLB**
 
 #### Demand Paging
 
 * Process Definition
 
-  * pages will be moced between memory and disk
+  * pages will be moved between memory and disk
 
 * Semantics
 
   * OS use main memory as a **page cache** of all the data allocated by processes in the system
 
-    1. initially page are allocated form mem
+    1. initially page are allocated from mem
 
     2. when mem fills up $\Rightarrow$ allocating page in mem requires some other page to be **evicted** from memory
 
@@ -520,7 +531,7 @@
   * only dirty page need to be swapped
   * should know where clean pages on disk to read them from agian ( no actual swapping )
 
-* OS View / Perspective Performance 
+* ==OS View / Perspective Performance==
   
   * evict page to disk $\Leftarrow$ mem if full
   
@@ -531,7 +542,7 @@
     * cause TLB miss
     
     * PTE was invalid so cause Page Fault
-    * OS allocate a page frame
+    * **OS allocate a page frame**
     * OS read page from disk
     * When I/O complete
       * OS fill in PTE
@@ -541,21 +552,21 @@
 * Process Perspective Performance
   
   * when a process FIRST START / Created
-    *  a new-created process contain
+    *  **a new-created process contain**
       * a brand new page table with all valide bits off (0000000...)
-      * no pages in memory
+      * **no pages in memory**
   * when a process starts executing
     * instructions fault on code and data pages
     * faulting stops when all necessary code+ data page are in mem
     * only code + data needed by a process will be loaded
     * then change over time
   
-* Cost
+* **Cost**
   
   * Timing
-    * disk read is initated when the process needs the page
+    * **disk read is initated when the process needs the page**
   * Request size
-    * process can only trigger page fault on one page at a time
+    * **process can only trigger page fault on one page at a time**
     * disk see single page-sized read
   
 * Alternative Policy
@@ -582,23 +593,23 @@
   * OS is responsible for loading page from disk
   * process stops until the data is brought into memory
   * use the OS page replacement policy
-* Detail Of Access Evicted Page
+* **Detail Of Access Evicted Page**
   1. OS evict a page
      * set the PTE invalid
      * store the location of the page in the swap file in the PTE
   2. A process access the page
      * the invalid PTE will cause a trap ( aka Page Fault )
   3. Trap will run the OS Page Fault Handler
-  4. Handler uses the invalid PTE to locate page in swap file
+  4. **Handler** uses the invalid PTE to locate page in swap file
      * Read page into a PF
      * update PTE to Point to it
      * reload TLB
   5. Now prcess resume the process
 * Limitation
   * each time we evict somthing else we put the invalid PTE
-    * slow
+    * **slow**
 * Solution
-  * OS Usually keeps a pool of free pages around so that allocation do not always cause eviction
+  * OS Usually keeps a pool of free pages around **so that allocation do not always cause eviction**
 
 
 
@@ -674,7 +685,7 @@
 * Limitation 
 
   * the one brought in the longest ago  may or may not being used 
-  * suffers form Belady's anomaly
+  * **suffers form Belady's anomaly**
     * the fault rate might actually increase when the algorithm is given more memory
     * eg 3 page frames $\to$ 4 page frames
 
@@ -824,9 +835,9 @@
 
 * Limitation
 
-  * low overhead when plenty of memory
+  * **low overhead when plenty of memory**
   * if mem is large 
-    *  accuracy of information degrades
+    *  **accuracy of information degrades**
 
 #### Counting-Based Replacement
 
@@ -848,7 +859,7 @@
   * most of these algorithms are too costly to run on EVERY page fault
   * so we reduce the frequency of running
 * Idea
-  * maintain a pool of free pages
+  * **maintain a pool of free pages**
   * run replacement algorithm when pool becomes to small ( i.e. low water mark )
   * free enough pages to at once replenish pool ( i.e. high water mark)
   * on page fault 
@@ -872,7 +883,7 @@
     * Reaching the limit $\Rightarrow$ it replace from its own pages
     * Local replacement
       * some process may do well while other suffers
-  * Variable space algorithm
+  * Variable/Dynamic space algorithm
     * Process 's set of pages grows and shrinks dynamically
     * Golbal replacement
       * one process can ruin all the rest
@@ -932,7 +943,7 @@
 
 * Use
 
-  * used as an abstraction
+  * **used as an abstraction**
     * intuition still valid
     * eg: how much memory does Firfox needed == what is the size of Firfox's WS
   * useful approximation in practice
@@ -983,25 +994,25 @@
 * Observation
 
   * OS spends a lot of time copying data
-    * sysCall arguments between user/kernel space
+    * **sysCall arguments between user/kernel space**
     * entire addr space to implement ```fork()```
 
 * Solution
 
-  * use  CoW to defer large copies as long as possible to avoid them altogether
+  * use  CoW to **defer large copies as long as possible to avoid them altogether**
 
   * example with process inheritance
 
     * Implementation
-      * **create shared** mappings of parent pages in child virtual address space [instead of cp pages]
+      * **create shared** mappings of **parent pages in child virtual address space** [instead of cp pages]
       * shared pages are protected as Read-Only in child
 
     * sysCall Performance
       * reads happen as usual
-      * write generate a protection fault
+      * **write generate a protection fault**
         * trap to OS
         * cp page
-        * change page mapping to client page table
+        * **change page mapping to client page table**
         * restart write instruction
     * help ```fork()``` since no need to write 2 time (write as initial-child + update child)
     * implemented as Unix ```vfork()```
@@ -1023,7 +1034,7 @@
   3. File is essentially backing store for that region of VA space [ instead of using the swap file ]
      * VA space not backed by real files also called Anonymous VM
 * Advantage
-  * Uniform access for files and memory 
+  * **Uniform access for files and memory** 
     * just use pointers
   * Less copying
 * Drawbacks
@@ -1037,7 +1048,7 @@
 
 ##### Page Frame
 
-* a fixed-size block og physical memory used in paging system
+* a fixed-size block of physical memory used in paging system
 * hold parts of a process's address space
 * frames are identical
 * any frame can be used to hold any page for any process

@@ -16,18 +16,18 @@
 
 #### Definition
 
-* the allocation of processors to threads over time
+* the **allocation of processors to threads over time**
 
 #### Role
 
-* the key to multiprogramming
-  * increase CPU utilization and job throughput
-  * overlap I/O and computation
+* the **key to multiprogramming**
+  * **increase CPU utilization and job throughput**
+  * **overlap I/O and computation**
 
 #### Mechanism
 
 * thread state
-* thread queue
+* **thread queue**
 
 #### Policy
 
@@ -51,10 +51,9 @@
 
     * Very long CPU Burst + Infrequent I/O Burst
 
-  * I/O-Bound
-
-    * Short CPU burst + Frequent/long I/O Burst
-
+  * **I/O-Bound**
+* Short CPU burst + Frequent/long I/O Burst
+  
 * Recall State Diagam
 
   * see as Process-Process Cycle
@@ -84,10 +83,10 @@
   * CPU Utilization
     * keep the CPU busy all the time
 
-* For Interactive System
+* **For Interactive System**
 
-  * Response Time
-    * minimize time between receiving request and **starting** to produce output
+  * **Response Time**
+    * minimize time between **receiving request** and **starting** to produce output
   * Proportionality
     * simple tesks complete quickly
 
@@ -117,18 +116,18 @@
     * sometimes called long-term with admission control ignored
     * decide which processs are swapped out to disk
 * Recall Dispatch Process
-  1. save currently running process state
+  1. **save currently running process state**
      * unless the current process is exiting
   2. select next process form ready queue
   3. restore state of next process
      * restore registers
      * restore OS control structures
      * switch to user mode
-     * set PC to next instruction in this process
+     * **set PC to next instruction in this process**
 
 #### When To Schedule
 
-* enter Ready state
+* **enter Ready state**
   * I/O Interrupt
   * Signal
   * Thread creation/admission
@@ -142,12 +141,12 @@
 
 * Non-preemptive Scheduling
   * once CPU has been allocated to a process
-    * it keep the CPU until it terminates/block
+    * **it keep the CPU until it terminates/block**
   * suitable for batch system
   * common for user-level thread package
 * Preemptive Scheduling
-  * CPU can be taken from a running process and allocated to another
-  * Needed in interactive or real-time system
+  * **CPU can be taken from a running process and allocated to another**
+  * **Needed in interactive or real-time system**
 
 
 
@@ -167,8 +166,8 @@
 * Functionality
   * choose the process at the head of the FIFO queue of ready process
 * Limitation
-  * avg waiting itme under FCFS  is often long
-    * cause convoy effect
+  * **avg waiting itme under FCFS  is often long**
+    * **cause convoy effect**
       * all other processes wait for the big process to release the CPU
 
 ####  Shortest-Job-First
@@ -183,22 +182,24 @@
     * programmer estimate
     * history statistic
     * shortest-next-CPU-burst for interactive jobs
+* Limitation 
+  * Still sufer from Starvation
 
 #### Round Robin
 
 * Characteristic
 
   * designed for time-sharing system
-  * preemptive
+  * **preemptive**
   * ready queue is circular
 * functionality 
 
   1. Each process is allowed to run for a time quantum $q$ 
 
-  2. Then preempt this process and put it back on queue
+  2. **Then preempt this process and put it back on queue**
   * notice that Critical Choice of Quantum ( i.e. time slice )
     * As $q \to \infin $ $\Rightarrow$ RR $\to$ FCFS
-    * As $q \to 0 $ $\Rightarrow$ Overhead of switching overwhelms useful time
+    * As $q \to 0 $ $\Rightarrow$ **Overhead of switching overwhelms useful time**
   * so we wnat $q$ to be large depends on the Context Switch Time (==WHY?==)
 
 #### Round Robin Efficiency
@@ -274,36 +275,35 @@
   * A priority is associated with each thread
   * Highest prority job is selected form Ready queue
     * ready queue can be  preemptive or non-preemptive
-* Key Enforcment Problem
-  * Priority Inversion
+* Key **Enforcment Problem**
+  * **Priority Inversion**
     * a low priority taks may prevent a high priority task from making progress by holding a resource
-  * Starvation
-    * a low priority task may never get to run
+  * **Starvation**
+    * **a low priority task may never get to run**
 
 #### Multi-Level Queue Scheduling
 
 * Definition
   * multiple ready queue
-  * each runnable provess is on only one queue
-  * threads are permanently assigned to a queue
+  * each runnable prosess is on only one queue
+  * threads are **permanently assigned to a queue**
     * criteria
       * job class
-      * priority 
+      * **priority** 
 
 * Characteristic
   * Each queue has its own scheduling algorithm
-    * feedback scheduling decides which queue to choos next
+    * **feedback scheduling** decides which queue to choos next
     * usually priority -based
 
 #### Feedback Scheduling
 
-* Definition
-
-  * adjust criteria for choosing a particular thread based on past history
+* **Definition**
+* adjust criteria for choosing a particular thread based on past history
     * boost priority of threads that have waited a long time / ==aging==
-    * prefer threads that do not use full time quantum
-    * boost priority following a user-input event
-    * adjust expected next CPU-Burst
+    * **prefer threads that do not use full time quantum**
+    * **boost priority following a user-input event**
+    * **adjust expected next CPU-Burst**
 * Usage
   * combine with MLQ to move threads between queues
 
@@ -314,8 +314,8 @@
     * each one assigned a different priority level
     * each one heas multiple ready-to-run jobs
 * Functionality
-  * always choose to run the jobs in the highest-priority queue
-  * always put jobs start in the highest priority queue
+  * **always choose to run the jobs in the highest-priority queue**
+  * **always put jobs start in the highest priority queue**
   * check FEEDBACK to update job in the correct priority of the queue
 * FEEDBACK
   1. A job uses an entire time quantum $\Rightarrow$ priority &downarrow; move to lower-priority queue
@@ -368,7 +368,7 @@
   
   * Solution sample
   
-    * Priority inheritance
+    * **Priority inheritance**
       * when high priority task request the lock, the priority of holding-mutex tasks inherits this high priority 
       * notice that this allow low priority task to preempt the medium priority task
   
